@@ -68,6 +68,11 @@ class Dictionary {
 
         return m_dict.subSet(startingWith, endpoint);
     }
+
+     // Function to return the list of valid words given no starting letters
+    SortedSet<String> getAllWords(){
+        return m_dict;
+    }
   
     // Member variables
     private TreeSet<String> m_dict = new TreeSet<String>();
