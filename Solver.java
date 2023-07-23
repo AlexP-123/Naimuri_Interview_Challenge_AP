@@ -1,5 +1,5 @@
 class Solver {
     public static void main(String[] args) {
-        System.out.println("Hello, World!"); 
+        Dictionary d = new Dictionary(2, "abc"); 
     }
 }
