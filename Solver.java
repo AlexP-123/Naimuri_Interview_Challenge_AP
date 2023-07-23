@@ -41,21 +41,12 @@ class Solver {
             if ((Character.isLetter(c) == false)) {
                 throw new Error("Non letter charecter entered");
             }
-            String s = new String();
-            s += c;
-            Integer value = m_LetterFreq.get(s);
-            if(value == null){
-                m_LetterFreq.put(s, 1);
-            }
-            else{
-                m_LetterFreq.put(s, value + 1);
-            }
         }
-
-        //m_LetterFreq.forEach((key, value) -> System.out.println(key + ":" + value));
-            
+        // Instantiate member classes
+        m_LetterManager = new LetterManager(m_n, allLetters);
         m_dict = new Dictionary(m_n, allLetters);
 
+        // Run the recursive solver
         if(!fillWordIn()){
             System.out.println("Solution not found");
         }
@@ -78,8 +69,6 @@ class Solver {
             for(String t : m_solution){
                 System.out.println(t);
             }
-            // code for debugging 
-            //m_LetterFreq.forEach((key, value) -> System.out.println(key + ":" + value));
             return true;
         }
         else{
@@ -94,54 +83,34 @@ class Solver {
 
         // Check the chosen word is a possible solution for the given letters
         boolean found = false;
-        for(String t : possibleWords){
+        for(String possibleWord : possibleWords){
             // Check that there are enough letters for the word
-            boolean valid=true;
-            for(int i = 0; i < m_n; ++i){
-
-                // Remove charecters from the map
-                char c = t.charAt(i);
-                String s = new String();
-                s += c;
-                Integer value = m_LetterFreq.get(s);
-                if(value == 0){
-                    valid=false;
-                }
-                m_LetterFreq.put(s, value-1);
-            }
+            boolean valid = m_LetterManager.removeLetters(possibleWord);
 
             // Add the word if it is a possible solution
             if (valid) {
-                m_solution.add(t);
+                m_solution.add(possibleWord);
 
                 // Call the recursive function
                 if (fillWordIn()){
                     found = true;
                 }
-
+                
                 // the word was incorrect and needs removing from the solution
                 m_solution.remove(m_solution.size() - 1);
             }
-
-            // Add characters back to the map
-            for(int i = 0; i < m_n; ++i){
-
-                char c = t.charAt(i);
-                String s = new String();
-                s+=c;
-                Integer value = m_LetterFreq.get(s);
-                m_LetterFreq.put(s, value+1);
-            }
-           
+            // Solution found !
             if(found) break;
-
+            
+            // if not found add characters back to the map
+            m_LetterManager.addLetters(possibleWord);            
         }
         return found;
     }
 
     // Member variables
     private Dictionary m_dict;
+    private LetterManager m_LetterManager;
     private int m_n;
     private Vector<String> m_solution = new Vector<String>();
-    private Map<String, Integer> m_LetterFreq = new TreeMap<String, Integer>();
 }
