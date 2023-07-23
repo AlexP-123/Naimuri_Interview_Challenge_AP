@@ -21,10 +21,27 @@ class Dictionary {
             // Condition holds true till
             // there is character in a string
             while ((st = br.readLine()) != null){
- 
-                // Print the string
-                System.out.println(st);
 
+                if(st.length() == n){
+                    boolean charInWord = true;
+                    for (int i = 0; i < n; i++) {
+                        boolean charInLetters = false;
+                        for(int j = 0; j<letters.length(); j++){
+                            if((st.charAt(i) == letters.charAt(j))){
+                                charInLetters = true;
+                                break;
+                            }
+                        }
+                        if(! charInLetters){
+                            charInWord = false;
+                            break;
+                        }
+                    }
+                // Print the string if it matches the criteria
+                if(charInWord){
+                    System.out.println(st);
+                }
+                }
             }
         }
         catch (FileNotFoundException e) {
