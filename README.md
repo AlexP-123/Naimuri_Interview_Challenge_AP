@@ -3,9 +3,9 @@
 Running the program:
 With the repository downloaded use the following command line prompt and follow the instructions (First inputing the number of words and second the list of letters in the solution):
 
-'''
+
 javac *.java && java Solver
-'''
+
 
 Set of requirements:
  - Inputs:
